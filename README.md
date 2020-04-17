@@ -47,3 +47,13 @@ Class is are written using code.
 A class should focus on a specific feature or model.
 To use the plan/class when instantiate an object  out of the class.
 They emphasize or promote modular code.
+
+
+### Challenges
+1. Study about mysqli php class
+2. Study about SQL inject/attacks
+3. String formatting in PHP
+4. Practice the basic concepts of OOP with PHP and the language you know best
+    - Understand the meaning Class, Object, method, property, method and access modifiers
+    - What are the differences between access private, public and protected in php
+5. SOLID design principles

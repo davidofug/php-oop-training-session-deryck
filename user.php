@@ -10,24 +10,23 @@ class User extends Config {
 
     public $first_name;
     public $last_name;
-
+    public $other_names;
+    public $updated_at;
     public $email;
     public $password;
 
     //Create a user
-    function add() {
+    function save() {
 
-        $sql = "INSERT email, pwd INTO users VALUES($this->email, $this->password)";
+        $stmt = $this->connection->prepare("INSERT INTO derrick_users( email, secret) VALUES(?, ?)");
+        $stmt->bind_param("ss", $this->email , trim(str_trip_tags(str_strip_slashes($this->password))));
         
-        return ( $this->connection->query($sql) ) ? $this->get( $this->connection->insert_id ) : false;
-            
-        // condition ? true : false
-
-/*         if(  $this->connection->query($sql)  )
-            return $this->connection->instert_id;
-        else
-            return false;
- */
+        if($stmt->execute()) :
+            $user = $this->get( $this->connection->insert_id );
+            return ($user->id) ? (int) $user->id : $this->connection->error;         
+        else:
+            return $this->connection->error;
+        endif;
 
     }
 
@@ -36,18 +35,19 @@ class User extends Config {
         if( !$id || !is_int($id)) return false;
 
         $sql = "SELECT 
+                    id,
                     email,
                     first_name,
-                    last_name,
-                        FROM users
+                    last_name
+                        FROM derrick_users
                         WHERE id = $id
                 ";
 
         $result = $this->connection->query($sql);
 
-        if( $result->num_rows($result) != 1 ) return false;
+        if( $result->num_rows != 1 ) return false;
 
-        $row = $this->connection->fetch_assoc($result);
+        $row = $result->fetch_assoc();
         /*  
             $this->id = $row['id'];
             $this->first_name = $row['first_name'];
