@@ -19,8 +19,6 @@ $userInfo = [
 
 $user = (object)$newUser->save($userInfo);
 
-// var_dump($user);
-
 if($user->id) {
 
     echo "\nSuccess: Member saved!\n";
